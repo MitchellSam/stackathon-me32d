@@ -1,8 +1,3 @@
-const DidThisRun4 = here => {
-  console.log(`did this run in: ${here}`)
-}
-DidThisRun4('menu.js')
-
 let menuState = {
   create: function() {
     let titleLabel = game.add.text(80, 80, 'Title', {

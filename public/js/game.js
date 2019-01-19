@@ -1,8 +1,3 @@
-const DidThisRun5 = here => {
-  console.log(`did this run in: ${here}`)
-}
-DidThisRun5('game.js')
-
 let gameState = {
   create: function() {
     game.add.sprite(0, 0, 'sky')
@@ -12,10 +7,12 @@ let gameState = {
     this.obstacles.enableBody = true
 
     let box
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 40; i++) {
       box = this.obstacles.create(
-        getRandomInt(1, 800),
-        getRandomInt(1, 600),
+        getRandomInt(1, 80) * 10,
+        getRandomInt(1, 60) * 10,
+        // i*20,
+        // 550,
         'obstacle'
       )
       box.body.immovable = true
@@ -28,8 +25,8 @@ let gameState = {
     let squid
     for (let i = 0; i < 5; i++) {
       squid = this.enemies.create(
-        getRandomInt(1, 800),
-        getRandomInt(1, 600),
+        getRandomInt(1, 80) * 10,
+        getRandomInt(1, 60) * 10,
         'squid'
       )
       squid.body.immovable = true
@@ -39,11 +36,10 @@ let gameState = {
     this.stars = game.add.group()
     this.stars.enableBody = true
 
-    let singleStar
     for (let i = 0; i < 5; i++) {
-      singleStar = this.stars.create(
-        getRandomInt(1, 800),
-        getRandomInt(1, 600),
+      let singleStar = this.stars.create(
+        getRandomInt(1, 80) * 10,
+        getRandomInt(1, 60) * 10,
         'star'
       )
       singleStar.body.immovable = true
@@ -51,14 +47,14 @@ let gameState = {
 
     // creating player
     this.player = game.add.sprite(
-      getRandomInt(1, 800),
-      getRandomInt(1, 600),
-      'player'
+        getRandomInt(1, 80) * 10,
+        getRandomInt(1, 60) * 10,
+        'player'
     )
     this.player.anchor.setTo(0.5, 0.5)
     game.physics.arcade.enable(this.player)
-    // player.body.collideWorldBounds = true
-    // player.body.gravity.y = 300;
+    this.player.body.collideWorldBounds = true
+    // this.player.body.gravity.y = 300;
 
     //  Creates 30 bullets, using the 'bullet' graphic
     this.weapon = game.add.weapon(30, 'bullet')
@@ -77,10 +73,7 @@ let gameState = {
     //  But the 'true' argument tells the weapon to track sprite rotation
     this.weapon.trackSprite(this.player, 0, 0, true)
 
-    // fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-
     // creating movement controls
-    // this.cursors = game.input.keyboard.createCursorKeys()
     this.keyboard = game.input.keyboard
 
     // create score
@@ -91,8 +84,6 @@ let gameState = {
     })
   },
   update: function() {
-    console.log('gameState', gameState)
-
     this.hitObstacle = game.physics.arcade.collide(this.player, this.obstacles)
     game.physics.arcade.overlap(
       this.player,
@@ -102,9 +93,16 @@ let gameState = {
       this
     )
     game.physics.arcade.overlap(
-      this.weapon.bullets.children,
+      this.weapon.bullets,
       this.enemies,
       this.shotSquid,
+      null,
+      this
+    )
+    game.physics.arcade.overlap(
+      this.weapon.bullets,
+      this.obstacles,
+      this.shotObstacle,
       null,
       this
     )
@@ -132,10 +130,9 @@ let gameState = {
 
     if (game.input.mousePointer.isDown) {
       this.weapon.fire()
-      // console.log(this.weapon.bullets.children)
     }
 
-    game.world.wrap(this.player, 16)
+    // game.world.wrap(this.player, 16)
 
     let targetAngle =
       360 /
@@ -151,23 +148,26 @@ let gameState = {
     }
     this.player.angle = targetAngle
   },
-  touchStar: function() {
-    console.log('touched a star', this)
-    // Move the star
-    this.stars.x = getRandomInt(1, 800)
-    this.stars.y = getRandomInt(1, 600)
-    // this.stars.kill()
+  touchStar: function(player, star) {
+    // // Move the star
+    star.x = getRandomInt(1, 80) * 10
+    star.y = getRandomInt(1, 60) * 10
 
     // Add and update the score
     this.score += 10
     this.scoreText.text = 'Score: ' + this.score
   },
-  shotSquid: function() {
-    console.log('shot a Squid', this)
+  shotSquid: function(bullet, squid) {
+    bullet.kill()
+    squid.x = getRandomInt(1, 80) * 10
+    squid.y = getRandomInt(1, 60) * 10
 
     // Add and update the score
     this.score += 10
     this.scoreText.text = 'Score: ' + this.score
+  },
+  shotObstacle: function(bullet, obstacle) {
+    bullet.kill()
   },
   win: function() {
     game.state.start('win')

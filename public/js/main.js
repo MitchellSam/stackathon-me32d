@@ -8,9 +8,4 @@ game.state.add('game', gameState)
 // game.state.add('win', winState);
 // game.state.add('loss', lossState);
 
-const DidThisRun = here => {
-  console.log(`did this run in: ${here}`)
-}
-DidThisRun('main.js')
-
 game.state.start('boot')

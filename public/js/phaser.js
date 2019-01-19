@@ -5867,7 +5867,7 @@
              * @type {Boolean}
              */
             this.lowerLimitEnabled =
-              typeof options.lowerLimit !== 'undefined' ? true : false
+              typeof options.lowerLimit !== 'undefined'
 
             /**
              * Set to true to enable upper limit.
@@ -5875,7 +5875,7 @@
              * @type {Boolean}
              */
             this.upperLimitEnabled =
-              typeof options.upperLimit !== 'undefined' ? true : false
+              typeof options.upperLimit !== 'undefined'
 
             /**
              * Lower constraint limit. The constraint position is forced to be larger than this value.
@@ -10995,7 +10995,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
             if (delta < 0) {
               // No intersection
-              return
+              
             } else if (delta === 0) {
               // single intersection point
               vec2.lerp(intersectionPoint, from, to, delta)
@@ -15183,7 +15183,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 /**
  * @author Mat Groves http://matgroves.com/ @Doormat23
  */
-
 ;(function() {
   let root = this
 
@@ -22946,7 +22945,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
  * @copyright    2016 Photon Storm Ltd.
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
-
 ;(function() {
   let root = this
 
@@ -36992,7 +36990,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
       if (this.device.cocoonJS) {
         this.canvas.screencanvas =
-          this.renderType === Phaser.CANVAS ? true : false
+          this.renderType === Phaser.CANVAS
       }
 
       if (this.renderType !== Phaser.HEADLESS) {
@@ -42174,7 +42172,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     stop: function() {
       //  Turning off
       if (this.enabled === false) {
-        return
+        
       } else {
         //  De-register, etc
         this.enabled = false
@@ -56704,7 +56702,7 @@ THIS SOFTWARE.
 
       PIXI.Sprite.prototype._renderWebGL.call(this._cachedSprite, renderSession)
 
-      return
+      
     } else {
       renderSession.spriteBatch.stop()
       renderSession.blendModeManager.setBlendMode(this.blendMode)
@@ -56799,7 +56797,7 @@ THIS SOFTWARE.
         renderSession
       )
 
-      return
+      
     } else {
       let context = renderSession.context
       let transform = this.worldTransform
@@ -60047,7 +60045,7 @@ THIS SOFTWARE.
 
     //  Let's scan the text and work out if any of the lines are > maxWidth
     for (let i = 0; i < text.length; i++) {
-      let end = i === text.length - 1 ? true : false
+      let end = i === text.length - 1
 
       if (/(?:\r\n|\r|\n)/.test(text.charAt(i))) {
         return {width: w, text: text.substr(0, i), end: end, chars: chars}
@@ -63552,7 +63550,7 @@ THIS SOFTWARE.
 
       device.pointerLock = !!device.pointerLockElement
 
-      device.quirksMode = document.compatMode === 'CSS1Compat' ? false : true
+      device.quirksMode = document.compatMode !== 'CSS1Compat'
 
       navigator.getUserMedia =
         navigator.getUserMedia ||
@@ -67682,7 +67680,7 @@ THIS SOFTWARE.
      */
     _resume: function() {
       if (this._codePaused) {
-        return
+        
       } else {
         this.resume()
       }
@@ -70181,7 +70179,7 @@ THIS SOFTWARE.
      */
     _resume: function() {
       if (this._codePaused) {
-        return
+        
       } else {
         this.resume()
       }
@@ -72425,7 +72423,7 @@ THIS SOFTWARE.
               '" key.'
           )
           console.log(json)
-          return
+          
         }
       })
 
@@ -94247,8 +94245,8 @@ THIS SOFTWARE.
         //  Phaser P2 Body
         return object.data
       } else if (
-        object['body'] &&
-        object['body'].type === Phaser.Physics.P2JS
+        object.body &&
+        object.body.type === Phaser.Physics.P2JS
       ) {
         //  Sprite, TileSprite, etc
         return object.body.data
@@ -94409,8 +94407,8 @@ THIS SOFTWARE.
       if (object instanceof Phaser.Group) {
         for (let i = 0; i < object.total; i++) {
           if (
-            object.children[i]['body'] &&
-            object.children[i]['body'].type === Phaser.Physics.P2JS
+            object.children[i].body &&
+            object.children[i].body.type === Phaser.Physics.P2JS
           ) {
             object.children[i].body.setCollisionGroup(group)
           }
@@ -95521,9 +95519,9 @@ THIS SOFTWARE.
     createBodyCallback: function(object, callback, callbackContext) {
       let id = -1
 
-      if (object['id']) {
+      if (object.id) {
         id = object.id
-      } else if (object['body']) {
+      } else if (object.body) {
         id = object.body.id
       }
 

@@ -1,8 +1,3 @@
-const DidThisRun3 = here => {
-  console.log(`did this run in: ${here}`)
-}
-DidThisRun3('load.js')
-
 let loadState = {
   preload: function() {
     let loadingLabel = game.add.text(80, 150, 'loading...', {
