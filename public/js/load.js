@@ -11,6 +11,8 @@ let loadState = {
     game.load.image('star', 'assets/star.png')
     game.load.image('bullet', 'assets/shmup-bullet.png')
     game.load.image('squid', 'assets/space-baddie-purple.png')
+    game.load.image('enemyBullet', 'assets/shmup-baddie-bullet.png');
+    game.load.spritesheet('kaboom', 'assets/explode1.png', 128, 128);
   },
   create: function() {
     game.state.start('menu')
