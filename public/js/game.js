@@ -11,6 +11,13 @@ let gameState = {
         this.sky.scale.x = 2
         this.sky.scale.y = 2
 
+        // sound
+        music.mute = false
+        this.explosionAudio = game.add.audio('explosionAudio')
+        this.explosionAudio.volume = 0.5
+        this.bulletAudio = game.add.audio('bulletAudio')
+        this.bulletAudio.volume = 0.3
+
         // creating obstacles
         this.obstacles = game.add.group()
         this.obstacles.enableBody = true
@@ -170,6 +177,12 @@ let gameState = {
             this.scoreText.text = 'Score: ' + this.score
         }
         this.scoreText.updateScore()
+
+        // create crosshair
+        this.crosshair = game.add.sprite(game.input.mousePointer.x, game.input.mousePointer.y, 'crosshair')
+        this.crosshair.anchor.setTo(0.5, 0.5)
+        this.crosshair.scale.x = 0.5
+        this.crosshair.scale.y = 0.5
     },
     update: function () {
         // define movement
@@ -195,6 +208,9 @@ let gameState = {
 
         // update the angle of the player sprite to the mouse cursor
         this.player.rotation = game.physics.arcade.angleToPointer(this.player)
+
+        //update crosshair location
+        this.moveCrosshair()
 
         // fire bullets from the player sprite
         if (this.player.alive && game.input.mousePointer.isDown) {
@@ -333,6 +349,7 @@ let gameState = {
                     bullet.body.velocity
                 )
                 this.playerBulletTimer = game.time.now + BULLET_SPACING
+                this.bulletAudio.play()
             }
         }
     },
@@ -384,6 +401,7 @@ let gameState = {
             )
             enemyBullet.angle = game.math.radToDeg(angle) + 180
             this.enemyBulletTimer = game.time.now + 1000
+            this.bulletAudio.play()
         }
     },
     bossFires: function () {
@@ -394,6 +412,7 @@ let gameState = {
             let angle = game.physics.arcade.moveToObject(bossBullet, this.player, 120)
             bossBullet.angle = game.math.radToDeg(angle) + 90
             this.bossBulletTimer = game.time.now + 1000
+            this.bulletAudio.play()
         }
     },
     playerCollide: function (player, enemy) {
@@ -405,11 +424,13 @@ let gameState = {
         explosion.body.velocity.y = enemy.body.velocity.y
         explosion.alpha = 0.7
         explosion.play('explosion', 30, false, true)
+        this.explosionAudio.play()
+
         enemy.damage(this.player.health)
         player.damage(enemy.damageAmount)
         this.playerHealth.updateHealth(player.health)
     },
-    playerHitEnemy(enemy, bullet) {
+    playerHitEnemy: function (enemy, bullet) {
         let explosion = this.explosions.getFirstExists(false)
         explosion.reset(
             bullet.body.x + bullet.body.halfWidth,
@@ -418,13 +439,14 @@ let gameState = {
         explosion.body.velocity.y = enemy.body.velocity.y
         explosion.alpha = 0.7
         explosion.play('explosion', 30, false, true)
+        this.explosionAudio.play()
         enemy.damage(10)
         bullet.kill()
 
         this.score += 10
         this.scoreText.updateScore()
     },
-    enemyHitPlayer(player, bullet) {
+    enemyHitPlayer: function (player, bullet) {
         let explosion = this.explosions.getFirstExists(false)
         explosion.reset(
             bullet.body.x + bullet.body.halfWidth,
@@ -433,13 +455,21 @@ let gameState = {
         explosion.body.velocity.y = player.body.velocity.y
         explosion.alpha = 0.7
         explosion.play('explosion', 30, false, true)
+        this.explosionAudio.play()
 
         bullet.kill()
         player.damage(bullet.damageAmount)
         this.playerHealth.updateHealth(player.health)
     },
-    shotObstacle(obstacle, bullet) {
+    shotObstacle: function (obstacle, bullet) {
         bullet.kill()
+    },
+    requestLock: function () {
+        game.input.mouse.requestPointerLock();
+    },
+    moveCrosshair: function () {
+        this.crosshair.x = game.input.mousePointer.x
+        this.crosshair.y = game.input.mousePointer.y
     },
     win: function () {
         score = this.score

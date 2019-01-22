@@ -1,5 +1,11 @@
+let music
+
 let menuState = {
   create: function() {
+    music = game.add.audio('music')
+    music.volume = 0.5
+    music.play()
+
     game.add.sprite(0, 0, 'menu')
     this.title = game.add.text(
       game.world.centerX,
