@@ -1,21 +1,32 @@
-let menuState = {
+let winState = {
   create: function() {
     game.add.sprite(0, 0, 'menu')
-    this.title = game.add.text(
+    this.gameOver = game.add.text(
       game.world.centerX,
-      game.world.centerY,
-      'Squid Invaders',
+      game.world.centerY - 60,
+      'YOU WON!',
       {
         font: '84px Arial',
         fill: '#fff'
       }
     )
-    this.title.anchor.setTo(0.5, 0.5)
+    this.gameOver.anchor.setTo(0.5, 0.5)
+
+    this.score = game.add.text(
+      game.world.centerX,
+      game.world.centerY + 10,
+      'Score: ' + score,
+      {
+        font: '50px Arial',
+        fill: '#fff'
+      }
+    )
+    this.score.anchor.setTo(0.5, 0.5)
 
     this.instructions = game.add.text(
       game.world.centerX,
       game.world.centerY + 60,
-      'Press the spacebar to start',
+      'Press the spacebar to restart',
       {
         font: '25px Arial',
         fill: '#fff'

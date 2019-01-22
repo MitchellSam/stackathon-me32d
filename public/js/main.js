@@ -5,7 +5,7 @@ game.state.add('boot', bootState)
 game.state.add('load', loadState)
 game.state.add('menu', menuState)
 game.state.add('game', gameState)
-// game.state.add('win', winState);
-// game.state.add('loss', lossState);
+game.state.add('win', winState)
+game.state.add('loss', lossState)
 
 game.state.start('boot')
