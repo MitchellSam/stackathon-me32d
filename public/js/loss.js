@@ -1,5 +1,8 @@
 let lossState = {
   create: function() {
+
+    music.mute = true
+
     game.add.sprite(0, 0, 'menu')
     this.gameOver = game.add.text(
       game.world.centerX,
