@@ -29,7 +29,9 @@ let gameState = {
                 game.rnd.integerInRange(1, 60) * 10,
                 randomObstacle[game.rnd.integerInRange(0, 11)]
             )
-            // box.body.immovable = true
+            singleObstacle.body.velocity.x = game.rnd.integerInRange(0, 20)
+            singleObstacle.body.velocity.y = game.rnd.integerInRange(0, 20)
+            // singleObstacle.body.immovable = true
         }
 
         // Player bullet group
@@ -84,6 +86,8 @@ let gameState = {
             singleGreenSquid.scale.y = 2
             singleGreenSquid.damageAmount = 20
             singleGreenSquid.health = 10
+            singleGreenSquid.body.velocity.x = game.rnd.integerInRange(0, 20)
+            singleGreenSquid.body.velocity.y = game.rnd.integerInRange(0, 20)
         }
 
         // creating purple squid enemy group
@@ -102,6 +106,8 @@ let gameState = {
             singlePurpleSquid.scale.y = 2
             singlePurpleSquid.damageAmount = 20
             singlePurpleSquid.health = 30
+            singlePurpleSquid.body.velocity.x = game.rnd.integerInRange(0, 20)
+            singlePurpleSquid.body.velocity.y = game.rnd.integerInRange(0, 20)
 
             this.game.time.events.loop(
                 game.rnd.integerInRange(1, 4) * 1000,
@@ -300,16 +306,22 @@ let gameState = {
             null,
             this
         )
-
         //shot obstacle
-        game.physics.arcade.overlap(
-            this.obstacles,
-            this.playerBullets,
-            this.shotObstacle,
-            null,
+        // game.physics.arcade.overlap(
+        //     this.obstacles,
+        //     this.playerBullets,
+        //     this.shotObstacle,
+        //     null,
+        //     this
+        // )
+        game.physics.arcade.collide(
+            this.obstacles, 
+            this.playerBullets, 
+            this.shotObstacle, 
+            null, 
             this
         )
-        game.physics.arcade.overlap(
+        game.physics.arcade.collide(
             this.obstacles,
             this.enemyBullets,
             this.shotObstacle,
